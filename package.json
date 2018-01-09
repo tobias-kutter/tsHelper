@@ -1,22 +1,44 @@
 {
   "name": "tshelper",
   "version": "0.0.1",
+  "author": "Tobias Kutter",
+  "license": "MIT",
   "description": "A collection of typescript helpers",
+  "homepage": "https://github.com/tobias-kutter/tsHelper#readme",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "keywords": [
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tobias-kutter/tsHelper.git"
   },
-  "keywords": [
-    "typescript"
-  ],
-  "author": "Tobias Kutter",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/tobias-kutter/tsHelper/issues"
   },
-  "homepage": "https://github.com/tobias-kutter/tsHelper#readme"
+  "peerDependencies": {
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "typescript": "^2.6.2"
+  },
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-bump": "3.0.0",
+    "gulp-util": "3.0.8",
+    "gulp-load-plugins": "1.5.0",
+    "gulp-sequence": "1.0.0",
+    "gulp-typescript": "3.2.3",
+    "gulp-tslint": "8.1.2",
+    "rimraf": "2.6.2",
+    "tslint": "5.8.0",
+    "tslint-microsoft-contrib": "5.0.1",
+    "vrsource-tslint-rules": "5.8.0"
+  },
+  "scripts": {
+    "preinstall": "attrib -r package.json && del /F /Q package-lock.json",
+    "gulp": "gulp",
+    "test": "gulp testing",
+    "lint": "gulp testing:lint"
+  }
 }
