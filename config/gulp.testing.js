@@ -32,7 +32,7 @@ gulp.task('testing:lint:source', () => {
 gulp.task('testing:unit', () =>
     gulp.src('./test/**/*.test.ts', { read: false })
         .pipe(plugins.mocha({
-            reporter: 'spec',
+            reporter: 'dot',
             require: 'ts-node/register'
         })));
 
