@@ -1,2 +1,2 @@
-require("./gulp.testing");
-require("./gulp.build");
+require('./gulp.testing');
+require('./gulp.build');
