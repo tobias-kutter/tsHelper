@@ -50,10 +50,8 @@
     "vrsource-tslint-rules": "~5.8.2"
   },
   "scripts": {
-	"start": "gulp build",
-	"test": "gulp testing",
-	"clean": "rimraf dist",
     "gulp": "gulp",
-    "tsc": "tsc"    
+    "tsc": "tsc",
+    "test": "gulp testing"
   }
 }
