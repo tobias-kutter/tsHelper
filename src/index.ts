@@ -1,6 +1,6 @@
-import { guidHlpr, IGuidHelper } from './helpers/guid.helper';
-import { IStringHelper, stringHlpr } from './helpers/string.helper';
-import { ITypeHelper, typeHlpr } from './helpers/type.helper';
+import { guidHelper, IGuidHelper } from './helpers/guid.helper';
+import { IStringHelper, stringHelper } from './helpers/string.helper';
+import { ITypeHelper, typeHelper } from './helpers/type.helper';
 
 import { AvailableTypes } from './enumerations/availableTypes.enum';
 import { SystemEnvironment } from './enumerations/systemEnvironment.enum';
@@ -24,9 +24,9 @@ export class HelperInstance implements IHelperInstance {
     public readonly environments: typeof SystemEnvironment;
 
     public constructor() {
-        this.guid = guidHlpr;
-        this.string = stringHlpr;
-        this.type = typeHlpr;
+        this.guid = guidHelper;
+        this.string = stringHelper;
+        this.type = typeHelper;
 
         this.types = AvailableTypes;
         this.environments = SystemEnvironment;
