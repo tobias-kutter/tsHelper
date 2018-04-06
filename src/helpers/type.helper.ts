@@ -1,5 +1,5 @@
-import { AvailableTypes } from './availableTypes.enum';
-import { REGEX_GUID, REGEX_GUID_VALID } from './constants';
+import { REGEX_GUID, REGEX_GUID_VALID } from '../constants';
+import { AvailableTypes } from '../enumerations/availableTypes.enum';
 
 function fnType(value: any): AvailableTypes {
     const varType: string = typeof value;
@@ -32,8 +32,9 @@ function fnTypeOfArr(value: any, expectedTypes: AvailableTypes[]): boolean {
     let isType = false;
     expectedTypes.forEach((expectedType) => {
         if (!isType) {
-            isType = (varType === expectedType) ||
-                (varType === AvailableTypes.Guid && expectedType === AvailableTypes.String);
+            isType =
+                varType === expectedType ||
+                (expectedType === AvailableTypes.String && varType === AvailableTypes.Guid);
         }
     });
     return isType;
@@ -122,7 +123,7 @@ export interface ITypeHelper {
     typeOfArr: (variable: any, expectedTypes: AvailableTypes[]) => boolean;
 }
 
-export const typeHlpr: ITypeHelper = {
+export const typeHelper: ITypeHelper = {
     areDefined: fnAreDefined,
     isArray: fnIsArray,
     isDate: fnIsDate,

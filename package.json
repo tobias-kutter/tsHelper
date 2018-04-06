@@ -22,8 +22,7 @@
     "typescript": "~2.8.1"
   },
   "dependencies": {
-    "typescript": "~2.8.1",
-    "underscore": "~1.8.3"
+    "typescript": "~2.8.1"
   },
   "devDependencies": {
     "@types/chai": "~4.1.2",

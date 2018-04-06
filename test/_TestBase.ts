@@ -1,3 +1,5 @@
+import * as globalConstants from '../src/constants';
+
 import * as chaiLib from 'chai';
 import * as mochaLib from 'mocha';
 
@@ -13,17 +15,23 @@ export const expect = chaiLib.expect;
 export const should = chaiLib.should;
 
 /* tslint:disable:no-unused-expression */
-export function testValid(fn: any, type?: string): void {
+export function testValid(value: any, type?: string): void {
     if (!type) {
         type = 'function';
     }
     it('should be defined', () => {
-        expect(fn).to.not.be.undefined;
-        expect(fn).to.not.be.null;
+        expect(value).to.not.be.undefined;
+        expect(value).to.not.be.null;
     });
     it('should be ' + type, () => {
-        expect(typeof fn).to.be.equal(type);
+        expect(value).to.be.a(type || 'undefined');
     });
+}
+
+export interface ITestConstantRegExpContainer {
+    guid: RegExp;
+    emptyGuid: RegExp;
+    validGuid: RegExp;
 }
 
 export interface ITestConstants {
@@ -56,6 +64,8 @@ export interface ITestConstants {
 
     guidVal: string;
     emptyGuidVal: string;
+
+    regExp: ITestConstantRegExpContainer;
 }
 
 export class TestConstants implements ITestConstants {
@@ -147,6 +157,10 @@ export class TestConstants implements ITestConstants {
         return this.mEmptyGuid;
     }
 
+    public get regExp(): ITestConstantRegExpContainer {
+        return this.mRegExp;
+    }
+
     private readonly mStringVal: string;
     private readonly mEmptyStringVal: string;
 
@@ -176,6 +190,8 @@ export class TestConstants implements ITestConstants {
 
     private readonly mGuid: string;
     private readonly mEmptyGuid: string;
+
+    private readonly mRegExp: ITestConstantRegExpContainer;
 
     public constructor() {
         /* tslint:disable:no-empty */
@@ -209,7 +225,13 @@ export class TestConstants implements ITestConstants {
         this.mDateInvalidVal = new Date(0, Number.NaN, undefined);
 
         this.mGuid = '18fa67fe-05ae-41af-84a5-610e844379d1';
-        this.mEmptyGuid = '00000000-0000-0000-0000-000000000000';
+        this.mEmptyGuid = globalConstants.GUID_EMPTY;
+
+        this.mRegExp = {
+            guid: globalConstants.REGEX_GUID,
+            validGuid: globalConstants.REGEX_GUID_VALID,
+            emptyGuid: globalConstants.REGEX_GUID_EMPTY
+        };
 
         /* tslint:enable:no-empty */
     }

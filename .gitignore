@@ -2,6 +2,7 @@
 .vscode
 .nyc_output
 package-lock.json
+dist
 
 # Logs
 logs

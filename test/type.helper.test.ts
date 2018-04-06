@@ -1,101 +1,32 @@
-import { AvailableTypes } from '../src/availableTypes.enum';
-import { ITypeHelper, typeHlpr } from '../src/type.helper';
+import { AvailableTypes } from '../src/enumerations/availableTypes.enum';
+import { ITypeHelper, typeHelper } from '../src/helpers/type.helper';
 import { describe, expect, it, ITestConstants, TestConstants, testValid } from './_TestBase';
 
-const helper: ITypeHelper = typeHlpr;
+const helper: ITypeHelper = typeHelper;
 const con: ITestConstants = new TestConstants();
 
 /* tslint:disable:no-unused-expression */
-
-function testReturnValueOfType(fn: any, expected: any, ...types: AvailableTypes[]): void {
-    const title = 'should return ' + (expected ? 'true' : 'false') + ' if value is ';
-    const buildExpect = (value: any, inverted?: boolean, callback?: () => void) => {
-        if (inverted) {
-            expect(fn(value)).to.not.be.equal(expected);
-        } else {
-            expect(fn(value)).to.be.equal(expected);
-        }
-        if (callback) {
-            callback();
-        }
-    };
-
-    types.forEach((item) => {
-        switch (item) {
-            case AvailableTypes.Array:
-                it(title + 'array', () => buildExpect(con.arrayVal));
-                it(title + 'array of numbers', () => buildExpect(con.arrayOfNumbers));
-                it(title + 'array of objects', () => buildExpect(con.arrayOfObjects));
-                it(title + 'array of strings', () => buildExpect(con.arrayOfStrings));
-                it(title + 'empty array', () => buildExpect(con.emptyArrayVal));
-                break;
-
-            case AvailableTypes.Boolean:
-                it(title + 'true', () => buildExpect(true));
-                it(title + 'false', () => buildExpect(false));
-                break;
-
-            case AvailableTypes.Date:
-                it(title + 'date', () => buildExpect(con.dateVal));
-                break;
-
-            case AvailableTypes.Function:
-                it(title + 'function', () => buildExpect(con.functionVal));
-                break;
-
-            case AvailableTypes.Guid:
-                it(title + 'guid', () => buildExpect(con.guidVal));
-                break;
-
-            case AvailableTypes.NaN:
-                it(title + 'NaN', () => buildExpect(con.nanVal));
-                break;
-
-            case AvailableTypes.Null:
-                it(title + 'null', () => buildExpect(con.nullVal));
-                break;
-
-            case AvailableTypes.Number:
-                it(title + 'number', () => buildExpect(con.numberVal));
-                it(title + 'max number', () => buildExpect(con.numberMaxVal));
-                it(title + 'min number', () => buildExpect(con.numberMinVal));
-                it(title + 'positive infinity', () => buildExpect(con.numberPosInfVal));
-                it(title + 'negative infinity', () => buildExpect(con.numberNegInfVal));
-                break;
-
-            case AvailableTypes.Object:
-                it(title + 'object', () => buildExpect(con.objectVal));
-                break;
-
-            case AvailableTypes.String:
-                it(title + 'string', () => buildExpect(con.stringVal));
-                break;
-
-            case AvailableTypes.Undefined:
-                it(title + 'undefined', () => buildExpect(con.undefVal));
-                break;
-
-            default:
-                break;
-        }
-    });
-}
 
 /*
         it('should ', () => {
 
         });
 
-        isDate: (variable: any) => boolean;
-        isDateValid: (variable: any) => boolean;
-        isFunction: (fn: any) => boolean;
-        isGuid: (variable: any, allowEmptyGuid?: boolean) => boolean;
-        isNumber: (variable: any) => boolean;
-        isObject: (variable: any) => boolean;
-        isString: (variable: any, checkEmptyString?: boolean) => boolean;
-        type: (variable: any) => AvailableTypes;
         typeOf: (variable: any, ...expectedTypes: AvailableTypes[]) => boolean;
         typeOfArr: (variable: any, expectedTypes: AvailableTypes[]) => boolean;
+
+    Unknown = -99,
+    NaN = -3,
+    Undefined = -2,
+    Null = -1,
+    String = 0,
+    Number = 1,
+    Object = 2,
+    Array = 3,
+    Date = 4,
+    Guid = 5,
+    Boolean = 6,
+    Function = 7
 */
 
 describe('typeHelper', () => {
@@ -351,6 +282,100 @@ describe('typeHelper', () => {
             AvailableTypes.NaN);
     });
 
+    describe('.isFunction', () => {
+        testValid(helper.isFunction);
+        testReturnValueOfType(helper.isFunction, true, AvailableTypes.Function);
+        testReturnValueOfType(helper.isFunction, false,
+            AvailableTypes.Null,
+            AvailableTypes.Undefined,
+            AvailableTypes.Unknown,
+            AvailableTypes.NaN,
+            AvailableTypes.String,
+            AvailableTypes.Number,
+            AvailableTypes.Object,
+            AvailableTypes.Array,
+            AvailableTypes.Guid,
+            AvailableTypes.Boolean,
+            AvailableTypes.Date);
+    });
+
+    describe('.isGuid', () => {
+        testValid(helper.isGuid);
+        testReturnValueOfType(helper.isGuid, true, AvailableTypes.Guid);
+        testReturnValueOfType(helper.isGuid, false,
+            AvailableTypes.Null,
+            AvailableTypes.Undefined,
+            AvailableTypes.Unknown,
+            AvailableTypes.NaN,
+            AvailableTypes.String,
+            AvailableTypes.Number,
+            AvailableTypes.Object,
+            AvailableTypes.Array,
+            AvailableTypes.Function,
+            AvailableTypes.Boolean,
+            AvailableTypes.Date);
+
+        it('should not allow empty guid if parameter is set', () => {
+            expect(helper.isGuid(con.emptyGuidVal, false)).to.be.false;
+            expect(helper.isGuid(con.guidVal, false)).to.be.true;
+        });
+        it('should allow empty guid if parameter is unset or true', () => {
+            expect(helper.isGuid(con.emptyGuidVal)).to.be.true;
+            expect(helper.isGuid(con.emptyGuidVal, true)).to.be.true;
+            expect(helper.isGuid(con.guidVal, true)).to.be.true;
+        });
+    });
+
+    describe('.isNumber', () => {
+        testValid(helper.isNumber);
+        testReturnValueOfType(helper.isNumber, true, AvailableTypes.Number);
+        testReturnValueOfType(helper.isNumber, false,
+            AvailableTypes.Null,
+            AvailableTypes.Undefined,
+            AvailableTypes.Unknown,
+            AvailableTypes.NaN,
+            AvailableTypes.String,
+            AvailableTypes.Function,
+            AvailableTypes.Object,
+            AvailableTypes.Array,
+            AvailableTypes.Guid,
+            AvailableTypes.Boolean,
+            AvailableTypes.Date);
+    });
+
+    describe('.isObject', () => {
+        testValid(helper.isObject);
+        testReturnValueOfType(helper.isObject, true, AvailableTypes.Object);
+        testReturnValueOfType(helper.isObject, false,
+            AvailableTypes.Null,
+            AvailableTypes.Undefined,
+            AvailableTypes.Unknown,
+            AvailableTypes.NaN,
+            AvailableTypes.String,
+            AvailableTypes.Function,
+            AvailableTypes.Number,
+            AvailableTypes.Array,
+            AvailableTypes.Guid,
+            AvailableTypes.Boolean,
+            AvailableTypes.Date);
+    });
+
+    describe('.isString', () => {
+        testValid(helper.isString);
+        testReturnValueOfType(helper.isString, true, AvailableTypes.String, AvailableTypes.Guid);
+        testReturnValueOfType(helper.isString, false,
+            AvailableTypes.Null,
+            AvailableTypes.Undefined,
+            AvailableTypes.Unknown,
+            AvailableTypes.NaN,
+            AvailableTypes.Object,
+            AvailableTypes.Function,
+            AvailableTypes.Number,
+            AvailableTypes.Array,
+            AvailableTypes.Boolean,
+            AvailableTypes.Date);
+    });
+
     describe('.nullOrUndef', () => {
         testValid(helper.nullOrUndef);
         testReturnValueOfType(helper.nullOrUndef, true,
@@ -368,4 +393,123 @@ describe('typeHelper', () => {
             AvailableTypes.Boolean,
             AvailableTypes.Function);
     });
+
+    describe('.type', () => {
+        testValid(helper.type);
+
+        for (const item in AvailableTypes) {
+            if (!Number.isNaN(Number(item))) {
+                const returnTxt = AvailableTypes[item] === 'NaN' ?
+                    AvailableTypes[item] :
+                    AvailableTypes[item].toLowerCase();
+
+                testReturnValueOfTypeSetTitle(
+                    helper.type,
+                    `should return ${returnTxt} if value is `,
+                    Number(item),
+                    Number(item));
+            }
+        }
+
+        it('should not return false values', () => {
+            for (const item in AvailableTypes) {
+                if (!Number.isNaN(Number(item))) {
+                    const wrongType = Number(item) === Number(AvailableTypes.Array) ?
+                        Number(AvailableTypes.String) :
+                        Number(AvailableTypes.Array);
+
+                    expect(helper.type(AvailableTypes[item])).to.not.equal(AvailableTypes[wrongType]);
+                }
+            }
+        });
+    });
+
+    // ToDo
+    describe('.typeOf', () => {
+        testValid(helper.typeOf);
+    });
+
+    // ToDo
+    describe('.typeOfArr', () => {
+        testValid(helper.typeOfArr);
+    });
 });
+
+function testReturnValueOfType(fn: any, expected: any, ...types: AvailableTypes[]): void {
+    const title = 'should return ' + expected.toString() + ' if value is ';
+    return testReturnValueOfTypeSetTitle(fn, title, expected, ...types);
+}
+
+function testReturnValueOfTypeSetTitle(fn: any, title: string, expected: any, ...types: AvailableTypes[]): void {
+    const buildExpect = (value: any, inverted?: boolean, callback?: () => void) => {
+        if (inverted) {
+            expect(fn(value)).to.not.be.equal(expected);
+        } else {
+            expect(fn(value)).to.be.equal(expected);
+        }
+        if (callback) {
+            callback();
+        }
+    };
+
+    types.forEach((item) => {
+        switch (item) {
+            case AvailableTypes.Array:
+                it(title + 'array', () => buildExpect(con.arrayVal));
+                it(title + 'array of numbers', () => buildExpect(con.arrayOfNumbers));
+                it(title + 'array of objects', () => buildExpect(con.arrayOfObjects));
+                it(title + 'array of strings', () => buildExpect(con.arrayOfStrings));
+                it(title + 'empty array', () => buildExpect(con.emptyArrayVal));
+                break;
+
+            case AvailableTypes.Boolean:
+                it(title + 'true', () => buildExpect(true));
+                it(title + 'false', () => buildExpect(false));
+                break;
+
+            case AvailableTypes.Date:
+                it(title + 'date', () => buildExpect(con.dateVal));
+                break;
+
+            case AvailableTypes.Function:
+                it(title + 'function', () => buildExpect(con.functionVal));
+                break;
+
+            case AvailableTypes.Guid:
+                it(title + 'guid', () => buildExpect(con.guidVal));
+                break;
+
+            case AvailableTypes.NaN:
+                it(title + 'NaN', () => buildExpect(con.nanVal));
+                break;
+
+            case AvailableTypes.Null:
+                it(title + 'null', () => buildExpect(con.nullVal));
+                break;
+
+            case AvailableTypes.Number:
+                it(title + 'number', () => buildExpect(con.numberVal));
+                it(title + 'max number', () => buildExpect(con.numberMaxVal));
+                it(title + 'min number', () => buildExpect(con.numberMinVal));
+                it(title + 'positive infinity', () => buildExpect(con.numberPosInfVal));
+                it(title + 'negative infinity', () => buildExpect(con.numberNegInfVal));
+                break;
+
+            case AvailableTypes.Object:
+                it(title + 'object', () => buildExpect(con.objectVal));
+                it(title + 'empty object', () => buildExpect(con.emptyObjectVal));
+                break;
+
+            case AvailableTypes.String:
+                it(title + 'string', () => buildExpect(con.stringVal));
+                break;
+
+            case AvailableTypes.Undefined:
+                it(title + 'undefined', () => buildExpect(con.undefVal));
+                break;
+
+            default:
+                break;
+        }
+    });
+}

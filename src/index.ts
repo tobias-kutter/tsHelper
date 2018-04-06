@@ -1,9 +1,9 @@
-import { guidHlpr, IGuidHelper } from './guid.helper';
-import { IStringHelper, stringHlpr } from './string.helper';
-import { ITypeHelper, typeHlpr } from './type.helper';
+import { guidHlpr, IGuidHelper } from './helpers/guid.helper';
+import { IStringHelper, stringHlpr } from './helpers/string.helper';
+import { ITypeHelper, typeHlpr } from './helpers/type.helper';
 
-import { AvailableTypes } from './availableTypes.enum';
-import { SystemEnvironment } from './systemEnvironment.enum';
+import { AvailableTypes } from './enumerations/availableTypes.enum';
+import { SystemEnvironment } from './enumerations/systemEnvironment.enum';
 
 export interface IHelperInstance {
     guid: IGuidHelper;
@@ -14,12 +14,24 @@ export interface IHelperInstance {
     environments: typeof SystemEnvironment;
 }
 
-// helpers
-export const tshlp: IHelperInstance = {
-    guid: guidHlpr,
-    string: stringHlpr,
-    type: typeHlpr,
+export class HelperInstance implements IHelperInstance {
 
-    types: AvailableTypes,
-    environments: SystemEnvironment
-};
+    public readonly guid: IGuidHelper;
+    public readonly string: IStringHelper;
+    public readonly type: ITypeHelper;
+
+    public readonly types: typeof AvailableTypes;
+    public readonly environments: typeof SystemEnvironment;
+
+    public constructor() {
+        this.guid = guidHlpr;
+        this.string = stringHlpr;
+        this.type = typeHlpr;
+
+        this.types = AvailableTypes;
+        this.environments = SystemEnvironment;
+    }
+}
+
+// helpers
+export const tshlp: IHelperInstance = new HelperInstance();

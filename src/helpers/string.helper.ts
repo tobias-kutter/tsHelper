@@ -1,8 +1,8 @@
-import { AvailableTypes } from './availableTypes.enum';
-import { typeHlpr } from './type.helper';
+import { AvailableTypes } from '../enumerations/availableTypes.enum';
+import { typeHelper } from './type.helper';
 
 function concatWithSeparatorArr(separator: string, values: string[]): string {
-    if (typeHlpr.typeOf(values, AvailableTypes.Array) && values.length > 0) {
+    if (typeHelper.typeOf(values, AvailableTypes.Array) && values.length > 0) {
         return values
             .filter((item) => item.length > 0)
             .join(separator);
@@ -16,7 +16,7 @@ function fnFormatArr(pattern: string, args: string[]): string {
         let replaceVal: string = '';
         const intVal = parseInt(item.substring(1, item.length - 1), 10);
         if (intVal >= 0) {
-            replaceVal = typeHlpr.isString(args[intVal]) ? args[intVal] : '';
+            replaceVal = typeHelper.isString(args[intVal]) ? args[intVal] : '';
         }
         if (intVal === -1) {
             replaceVal = '{';
@@ -33,13 +33,17 @@ function fnFormat(pattern: string, ...args: string[]): string {
 }
 
 function fnCapitalize(value: string): string {
-    if (!typeHlpr.isString(value)) { value = ''; }
+    if (!typeHelper.isString(value)) {
+        value = '';
+    }
     const cap = value.length < 1 ? value : value.slice(0, 1).toUpperCase();
     return value.length < 2 ? cap : cap + value.slice(1);
 }
 
 function fnCapitalizeAll(value: string, splitChar?: string): string {
-    if (!typeHlpr.isString(value)) { splitChar = ' '; }
+    if (!typeHelper.isString(value)) {
+        splitChar = ' ';
+    }
     return value.split(splitChar || ' ')
         .map((sub: string) => fnCapitalize(sub))
         .join(splitChar);
@@ -61,25 +65,37 @@ function fnConcatWithSeparator(separator: string, values: string[]): string {
 }
 
 function fnTrimStart(value: string, char?: string): string {
-    if (typeHlpr.nullOrUndef(char)) { char = ' '; }
+    if (typeHelper.nullOrUndef(char)) {
+        char = ' ';
+    }
     let startIndex = 0;
-    while (value[startIndex] === char) { startIndex++; }
+    while (value[startIndex] === char) {
+        startIndex++;
+    }
     return value.substr(startIndex);
 }
 
 function fnTrimEnd(value: string, char?: string): string {
-    if (typeHlpr.nullOrUndef(char)) { char = ' '; }
+    if (typeHelper.nullOrUndef(char)) {
+        char = ' ';
+    }
     return value.replace(new RegExp((char + '+$'), 'g'), '');
 }
 
 function fnTrim(value: string, char?: string): string {
-    if (typeHlpr.nullOrUndef(char)) { char = ' '; }
+    if (typeHelper.nullOrUndef(char)) {
+        char = ' ';
+    }
     return fnTrimStart(fnTrimEnd(value, char), char);
 }
 
 function fnEquals(valueA: string, valueB: string, trimValues?: boolean, caseSensitive?: boolean): boolean {
-    if (typeHlpr.nullOrUndef(trimValues)) { trimValues = false; }
-    if (typeHlpr.nullOrUndef(caseSensitive)) { caseSensitive = true; }
+    if (typeHelper.nullOrUndef(trimValues)) {
+        trimValues = false;
+    }
+    if (typeHelper.nullOrUndef(caseSensitive)) {
+        caseSensitive = true;
+    }
 
     if (trimValues) {
         valueA = fnTrim(valueA);
@@ -207,7 +223,7 @@ export interface IStringHelper {
     trimStart(value: string, char?: string): string;
 }
 
-export const stringHlpr: IStringHelper = {
+export const stringHelper: IStringHelper = {
     capitalize: fnCapitalize,
     capitalizeAll: fnCapitalizeAll,
     concat: fnConcat,
