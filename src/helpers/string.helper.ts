@@ -1,10 +1,11 @@
 import { AvailableTypes } from '../enumerations/availableTypes.enum';
 import { typeHelper } from './type.helper';
 
-function concatWithSeparatorArr(separator: string, values: string[]): string {
+function concatWithSeparatorArr(separator: string, values: any[]): string {
     if (typeHelper.typeOf(values, AvailableTypes.Array) && values.length > 0) {
         return values
-            .filter((item) => item.length > 0)
+            .map((item) => typeHelper.nullOrUndef(item) ? '' : ('' + item))
+            .filter((item) => ('' + item).length > 0)
             .join(separator);
     }
     return '';
@@ -14,7 +15,7 @@ function fnFormatArr(pattern: string, args: string[]): string {
     const regExp: RegExp = /{-?[0-9]+}/gi;
     return pattern.replace(regExp, (item) => {
         let replaceVal: string = '';
-        const intVal = parseInt(item.substring(1, item.length - 1), 10);
+        const intVal = Number.parseInt(item.substring(1, item.length - 1), 10);
         if (intVal >= 0) {
             replaceVal = typeHelper.isString(args[intVal]) ? args[intVal] : '';
         }
@@ -33,20 +34,15 @@ function fnFormat(pattern: string, ...args: string[]): string {
 }
 
 function fnCapitalize(value: string): string {
-    if (!typeHelper.isString(value)) {
-        value = '';
-    }
     const cap = value.length < 1 ? value : value.slice(0, 1).toUpperCase();
     return value.length < 2 ? cap : cap + value.slice(1);
 }
 
 function fnCapitalizeAll(value: string, splitChar?: string): string {
-    if (!typeHelper.isString(value)) {
-        splitChar = ' ';
-    }
-    return value.split(splitChar || ' ')
+    const separator: string = typeHelper.isString(splitChar) ? ('' + splitChar) : ' ';
+    return value.split(separator)
         .map((sub: string) => fnCapitalize(sub))
-        .join(splitChar);
+        .join(separator);
 }
 
 function fnReplaceAll(source: string, replaceMap: Map<string, string>, isKeyCaseSensitive?: boolean): string {
@@ -56,37 +52,31 @@ function fnReplaceAll(source: string, replaceMap: Map<string, string>, isKeyCase
     return result;
 }
 
-function fnConcat(...values: string[]): string {
+function fnConcat(...values: any[]): string {
     return concatWithSeparatorArr('', values);
 }
 
-function fnConcatWithSeparator(separator: string, values: string[]): string {
+function fnConcatWithSeparator(separator: string, values: any[]): string {
     return concatWithSeparatorArr(separator, values);
 }
 
 function fnTrimStart(value: string, char?: string): string {
-    if (typeHelper.nullOrUndef(char)) {
-        char = ' ';
-    }
+    const character: string = typeHelper.isString(char) ? ('' + char) : ' ';
     let startIndex = 0;
-    while (value[startIndex] === char) {
+    while (value[startIndex] === character) {
         startIndex++;
     }
     return value.substr(startIndex);
 }
 
 function fnTrimEnd(value: string, char?: string): string {
-    if (typeHelper.nullOrUndef(char)) {
-        char = ' ';
-    }
-    return value.replace(new RegExp((char + '+$'), 'g'), '');
+    const character: string = typeHelper.isString(char) ? ('' + char) : ' ';
+    return value.replace(new RegExp((character + '+$'), 'g'), '');
 }
 
 function fnTrim(value: string, char?: string): string {
-    if (typeHelper.nullOrUndef(char)) {
-        char = ' ';
-    }
-    return fnTrimStart(fnTrimEnd(value, char), char);
+    const character: string = typeHelper.isString(char) ? ('' + char) : ' ';
+    return fnTrimStart(fnTrimEnd(value, character), character);
 }
 
 function fnEquals(valueA: string, valueB: string, trimValues?: boolean, caseSensitive?: boolean): boolean {
@@ -115,7 +105,6 @@ export interface IStringHelper {
      * This method capitalizes a string.
      * E.g. 'hello World' --> 'Hello World'
      *
-     * @static
      * @param {string} value value to capitalize
      * @returns {string} capitalized string value
      * @memberof StringHelper
@@ -126,7 +115,6 @@ export interface IStringHelper {
      * This method capitalizes the entire string.
      * E.g. 'hello my pretty new World' --> 'Hello My Pretty New World'
      *
-     * @static
      * @param {string} value value to capitalize
      * @param {string} [splitChar=' '] spitting char (default: whitespace)
      * @memberof StringHelper
@@ -139,7 +127,7 @@ export interface IStringHelper {
      * @param {...string[]} values values which should be concat
      * @returns {string} transformed string
      */
-    concat: (...values: string[]) => string;
+    concat: (...values: any[]) => string;
 
     /**
      * concat values to a single string using separator char
@@ -148,7 +136,7 @@ export interface IStringHelper {
      * @param {...string[]} values values which should be concat
      * @returns {string} transformed string
      */
-    concatSep: (separator: string, values: string[]) => string;
+    concatSep: (separator: string, values: any[]) => string;
 
     /**
      * checks if two string contents are equal
@@ -165,7 +153,6 @@ export interface IStringHelper {
      * string format function
      * ('She {1} {0}{2} by the {0}{3}. {-1}^.^{-2}', 'sea', 'sells', 'shells', 'shore') --> She sells seashells by the seashore. {^.^}
      *
-     * @static
      * @param {string} pattern string pattern with '{<index>}' e.g. '{0} World!'
      * @param {...string[]} args replacement arguments
      * @returns {string} formatted string value
@@ -177,7 +164,6 @@ export interface IStringHelper {
      * string format function
      * ('She {1} {0}{2} by the {0}{3}. {-1}^.^{-2}', 'sea', 'sells', 'shells', 'shore') --> She sells seashells by the seashore {^.^}
      *
-     * @static
      * @param {string} pattern string pattern with '{<index>}' e.g. '{0} World!'
      * @param {string[]} args replacement arguments as array
      * @returns {string} formatted string value

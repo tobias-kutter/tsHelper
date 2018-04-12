@@ -1,4 +1,4 @@
-import * as con from '../constants';
+import { GUID_EMPTY, RegExpCollection } from '../constants';
 
 function fnRandomHexVal(matches?: RegExp): string {
     const generate: () => string = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -16,19 +16,19 @@ function fnRandomHexVal(matches?: RegExp): string {
 function fnGenerate(): string {
     const segmentA = `${fnRandomHexVal()}${fnRandomHexVal()}`;
     const segmentB = fnRandomHexVal();
-    const segmentC = fnRandomHexVal(con.REGEX_GUID_VALID_SEG3);
-    const segmentD = fnRandomHexVal(con.REGEX_GUID_VALID_SEG4);
+    const segmentC = fnRandomHexVal(RegExpCollection.guid.segments.SEGMENT3);
+    const segmentD = fnRandomHexVal(RegExpCollection.guid.segments.SEGMENT4);
     const segmentE = `${fnRandomHexVal()}${fnRandomHexVal()}${fnRandomHexVal()}`;
 
     return `${segmentA}-${segmentB}-${segmentC}-${segmentD}-${segmentE}`;
 }
 
 function fnIsEmptyGuid(guid: string): boolean {
-    return guid === con.GUID_EMPTY || con.REGEX_GUID_EMPTY.test(guid);
+    return guid === GUID_EMPTY || RegExpCollection.guid.EMPTY.test(guid);
 }
 
 function fnIsValidGuid(guid: string): boolean {
-    return guid !== con.GUID_EMPTY && con.REGEX_GUID_VALID.test(guid);
+    return guid !== GUID_EMPTY && RegExpCollection.guid.VALID.test(guid);
 }
 
 export interface IGuidPatternCollection {
@@ -46,13 +46,13 @@ export interface IGuidHelper {
 }
 
 export const guidHelper: IGuidHelper = {
-    emptyGuid: con.GUID_EMPTY,
+    emptyGuid: GUID_EMPTY,
     generate: fnGenerate,
     isEmptyGuid: fnIsEmptyGuid,
     isValidGuid: fnIsValidGuid,
     pattern: {
-        empty: con.REGEX_GUID_EMPTY,
-        general: con.REGEX_GUID,
-        valid: con.REGEX_GUID_VALID
+        empty: RegExpCollection.guid.EMPTY,
+        general: RegExpCollection.guid.GENERAL,
+        valid: RegExpCollection.guid.VALID
     }
 };

@@ -1,12 +1,52 @@
-export const REGEX_GUID: RegExp = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-export const REGEX_GUID_EMPTY: RegExp = /^0{8}-0{4}-0{4}-0{4}-0{12}$/i;
+export interface IRegExpConstantsGuidSegments {
+    SEGMENT1: RegExp;
+    SEGMENT2: RegExp;
+    SEGMENT3: RegExp;
+    SEGMENT4: RegExp;
+    SEGMENT5: RegExp;
+}
 
-export const REGEX_GUID_VALID_SEG1: RegExp = /^[0-9a-f]{8}$/i;
-export const REGEX_GUID_VALID_SEG2: RegExp = /^[0-9a-f]{4}$/i;
-export const REGEX_GUID_VALID_SEG3: RegExp = /^[1-5][0-9a-f]{3}$/i;
-export const REGEX_GUID_VALID_SEG4: RegExp = /^[89ab][0-9a-f]{3}$/i;
-export const REGEX_GUID_VALID_SEG5: RegExp = /^[0-9a-f]{12}$/i;
+export interface IRegExpConstantsGuid {
+    GENERAL: RegExp;
+    EMPTY: RegExp;
+    VALID: RegExp;
+    segments: IRegExpConstantsGuidSegments;
+}
 
-export const REGEX_GUID_VALID: RegExp = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const guidObj: IRegExpConstantsGuid = {
+    GENERAL: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+    EMPTY: /^0{8}-0{4}-0{4}-0{4}-0{12}$/i,
+    VALID: /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    segments: {
+        SEGMENT1: /^[0-9a-f]{8}$/i,
+        SEGMENT2: /^[0-9a-f]{4}$/i,
+        SEGMENT3: /^[1-5][0-9a-f]{3}$/i,
+        SEGMENT4: /^[89ab][0-9a-f]{3}$/i,
+        SEGMENT5: /^[0-9a-f]{12}$/i
+    }
+};
+
+export interface IRegExpConstantsSystem {
+    ANDROID: RegExp;
+    IOS: RegExp;
+    OTHER: RegExp;
+    WINDOWS_MOBILE: RegExp;
+}
+
+const systemObj: IRegExpConstantsSystem = {
+    ANDROID: /android/i,
+    IOS: /iPad|iPhone|iPod/i,
+    OTHER: /webos|opera mini|blackberry/i,
+    WINDOWS_MOBILE: /windows phone|iemobile/i
+};
+
+export interface IRegExpConstants {
+    guid: IRegExpConstantsGuid;
+    system: IRegExpConstantsSystem;
+}
 
 export const GUID_EMPTY: string = '00000000-0000-0000-0000-000000000000';
+export const RegExpCollection: IRegExpConstants = {
+    guid: guidObj,
+    system: systemObj
+};

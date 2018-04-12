@@ -1,46 +1,23 @@
 import { AvailableTypes } from '../src/enumerations/availableTypes.enum';
-import { ITypeHelper, typeHelper } from '../src/helpers/type.helper';
+import { typeHelper } from '../src/helpers/type.helper';
 import { describe, expect, it, ITestConstants, TestConstants, testValid } from './_TestBase';
 
-const helper: ITypeHelper = typeHelper;
 const con: ITestConstants = new TestConstants();
 
 /* tslint:disable:no-unused-expression */
 
-/*
-        it('should ', () => {
-
-        });
-
-        typeOf: (variable: any, ...expectedTypes: AvailableTypes[]) => boolean;
-        typeOfArr: (variable: any, expectedTypes: AvailableTypes[]) => boolean;
-
-    Unknown = -99,
-    NaN = -3,
-    Undefined = -2,
-    Null = -1,
-    String = 0,
-    Number = 1,
-    Object = 2,
-    Array = 3,
-    Date = 4,
-    Guid = 5,
-    Boolean = 6,
-    Function = 7
-*/
-
 describe('typeHelper', () => {
-    testValid(helper, 'object');
+    testValid(typeHelper, 'object');
 
     describe('.areDefined', () => {
-        testValid(helper.areDefined);
+        testValid(typeHelper.areDefined);
 
         it('should return true if all values are defined (single value)', () => {
-            const result = helper.areDefined(con.objectVal);
+            const result = typeHelper.areDefined(con.objectVal);
             expect(result).to.be.true;
         });
         it('should return true if all values are defined (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.numberVal,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -52,11 +29,11 @@ describe('typeHelper', () => {
         });
 
         it('should return false if one parameter is null (single value)', () => {
-            const result = helper.areDefined(con.nullVal);
+            const result = typeHelper.areDefined(con.nullVal);
             expect(result).to.be.false;
         });
         it('should return false if one parameter is null (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.numberVal,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -67,7 +44,7 @@ describe('typeHelper', () => {
             expect(result).to.be.false;
         });
         it('should return false if first parameter is null (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.nullVal,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -78,7 +55,7 @@ describe('typeHelper', () => {
             expect(result).to.be.false;
         });
         it('should return false if last parameter is null (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.stringVal,
                 con.emptyArrayVal,
                 con.numberVal,
@@ -90,11 +67,11 @@ describe('typeHelper', () => {
         });
 
         it('should return false if one parameter is undefined (single value)', () => {
-            const result = helper.areDefined(con.undefVal);
+            const result = typeHelper.areDefined(con.undefVal);
             expect(result).to.be.false;
         });
         it('should return false if one parameter is undefined (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.numberVal,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -105,7 +82,7 @@ describe('typeHelper', () => {
             expect(result).to.be.false;
         });
         it('should return false if first parameter is undefined (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.undefVal,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -116,7 +93,7 @@ describe('typeHelper', () => {
             expect(result).to.be.false;
         });
         it('should return false if last parameter is undefined (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.stringVal,
                 con.emptyArrayVal,
                 con.numberVal,
@@ -128,11 +105,11 @@ describe('typeHelper', () => {
         });
 
         it('should return false if one parameter is NaN (single value)', () => {
-            const result = helper.areDefined(con.nanVal);
+            const result = typeHelper.areDefined(con.nanVal);
             expect(result).to.be.false;
         });
         it('should return false if one parameter is NaN (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.numberVal,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -143,7 +120,7 @@ describe('typeHelper', () => {
             expect(result).to.be.false;
         });
         it('should return false if first parameter is NaN (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.nanVal,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -154,7 +131,7 @@ describe('typeHelper', () => {
             expect(result).to.be.false;
         });
         it('should return false if last parameter is NaN (multiple values)', () => {
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.stringVal,
                 con.emptyArrayVal,
                 con.numberVal,
@@ -167,12 +144,12 @@ describe('typeHelper', () => {
 
         it('should return false if one parameter produces error (single value)', () => {
             const errorProducingVal: { foo: any } = { foo: {} };
-            const result = helper.areDefined(errorProducingVal.foo.produceErr);
+            const result = typeHelper.areDefined(errorProducingVal.foo.produceErr);
             expect(result).to.be.false;
         });
         it('should return false if one parameter produces error (multiple values)', () => {
             const errorProducingVal: { foo: any } = { foo: {} };
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.stringVal,
                 con.emptyArrayVal,
                 con.numberVal,
@@ -184,7 +161,7 @@ describe('typeHelper', () => {
         });
         it('should return false if first parameter produces error (multiple values)', () => {
             const errorProducingVal: { foo: any } = { foo: {} };
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 errorProducingVal.foo.produceErr,
                 con.stringVal,
                 con.emptyArrayVal,
@@ -196,7 +173,7 @@ describe('typeHelper', () => {
         });
         it('should return false if last parameter produces error (multiple values)', () => {
             const errorProducingVal: { foo: any } = { foo: {} };
-            const result = helper.areDefined(
+            const result = typeHelper.areDefined(
                 con.stringVal,
                 con.emptyArrayVal,
                 con.numberVal,
@@ -209,9 +186,9 @@ describe('typeHelper', () => {
     });
 
     describe('.isArray', () => {
-        testValid(helper.isArray);
-        testReturnValueOfType(helper.isArray, true, AvailableTypes.Array);
-        testReturnValueOfType(helper.isArray, false,
+        testValid(typeHelper.isArray);
+        testReturnValueOfType(typeHelper.isArray, true, AvailableTypes.Array);
+        testReturnValueOfType(typeHelper.isArray, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -226,9 +203,9 @@ describe('typeHelper', () => {
     });
 
     describe('.isDate', () => {
-        testValid(helper.isDate);
-        testReturnValueOfType(helper.isDate, true, AvailableTypes.Date);
-        testReturnValueOfType(helper.isDate, false,
+        testValid(typeHelper.isDate);
+        testReturnValueOfType(typeHelper.isDate, true, AvailableTypes.Date);
+        testReturnValueOfType(typeHelper.isDate, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -242,14 +219,14 @@ describe('typeHelper', () => {
             AvailableTypes.Function);
 
         it('should return true if value is invalid date', () => {
-            expect(helper.isDate(con.invalidDateVal)).to.be.true;
+            expect(typeHelper.isDate(con.invalidDateVal)).to.be.true;
         });
     });
 
     describe('.isDateValid', () => {
-        testValid(helper.isDateValid);
-        testReturnValueOfType(helper.isDateValid, true, AvailableTypes.Date);
-        testReturnValueOfType(helper.isDateValid, false,
+        testValid(typeHelper.isDateValid);
+        testReturnValueOfType(typeHelper.isDateValid, true, AvailableTypes.Date);
+        testReturnValueOfType(typeHelper.isDateValid, false,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
             AvailableTypes.NaN,
@@ -260,13 +237,13 @@ describe('typeHelper', () => {
             AvailableTypes.Function);
 
         it('should return false if date is invalid', () => {
-            expect(helper.isDateValid(con.invalidDateVal)).to.not.be.false;
+            expect(typeHelper.isDateValid(con.invalidDateVal)).to.not.be.false;
         });
     });
 
     describe('.isDefined', () => {
-        testValid(helper.isDefined);
-        testReturnValueOfType(helper.isDefined, true,
+        testValid(typeHelper.isDefined);
+        testReturnValueOfType(typeHelper.isDefined, true,
             AvailableTypes.Array,
             AvailableTypes.String,
             AvailableTypes.Number,
@@ -275,7 +252,7 @@ describe('typeHelper', () => {
             AvailableTypes.Guid,
             AvailableTypes.Boolean,
             AvailableTypes.Function);
-        testReturnValueOfType(helper.isDefined, false,
+        testReturnValueOfType(typeHelper.isDefined, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -283,9 +260,9 @@ describe('typeHelper', () => {
     });
 
     describe('.isFunction', () => {
-        testValid(helper.isFunction);
-        testReturnValueOfType(helper.isFunction, true, AvailableTypes.Function);
-        testReturnValueOfType(helper.isFunction, false,
+        testValid(typeHelper.isFunction);
+        testReturnValueOfType(typeHelper.isFunction, true, AvailableTypes.Function);
+        testReturnValueOfType(typeHelper.isFunction, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -300,9 +277,9 @@ describe('typeHelper', () => {
     });
 
     describe('.isGuid', () => {
-        testValid(helper.isGuid);
-        testReturnValueOfType(helper.isGuid, true, AvailableTypes.Guid);
-        testReturnValueOfType(helper.isGuid, false,
+        testValid(typeHelper.isGuid);
+        testReturnValueOfType(typeHelper.isGuid, true, AvailableTypes.Guid);
+        testReturnValueOfType(typeHelper.isGuid, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -316,20 +293,20 @@ describe('typeHelper', () => {
             AvailableTypes.Date);
 
         it('should not allow empty guid if parameter is set', () => {
-            expect(helper.isGuid(con.emptyGuidVal, false)).to.be.false;
-            expect(helper.isGuid(con.guidVal, false)).to.be.true;
+            expect(typeHelper.isGuid(con.emptyGuidVal, false)).to.be.false;
+            expect(typeHelper.isGuid(con.guidVal, false)).to.be.true;
         });
         it('should allow empty guid if parameter is unset or true', () => {
-            expect(helper.isGuid(con.emptyGuidVal)).to.be.true;
-            expect(helper.isGuid(con.emptyGuidVal, true)).to.be.true;
-            expect(helper.isGuid(con.guidVal, true)).to.be.true;
+            expect(typeHelper.isGuid(con.emptyGuidVal)).to.be.true;
+            expect(typeHelper.isGuid(con.emptyGuidVal, true)).to.be.true;
+            expect(typeHelper.isGuid(con.guidVal, true)).to.be.true;
         });
     });
 
     describe('.isNumber', () => {
-        testValid(helper.isNumber);
-        testReturnValueOfType(helper.isNumber, true, AvailableTypes.Number);
-        testReturnValueOfType(helper.isNumber, false,
+        testValid(typeHelper.isNumber);
+        testReturnValueOfType(typeHelper.isNumber, true, AvailableTypes.Number);
+        testReturnValueOfType(typeHelper.isNumber, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -344,9 +321,9 @@ describe('typeHelper', () => {
     });
 
     describe('.isObject', () => {
-        testValid(helper.isObject);
-        testReturnValueOfType(helper.isObject, true, AvailableTypes.Object);
-        testReturnValueOfType(helper.isObject, false,
+        testValid(typeHelper.isObject);
+        testReturnValueOfType(typeHelper.isObject, true, AvailableTypes.Object);
+        testReturnValueOfType(typeHelper.isObject, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -361,9 +338,9 @@ describe('typeHelper', () => {
     });
 
     describe('.isString', () => {
-        testValid(helper.isString);
-        testReturnValueOfType(helper.isString, true, AvailableTypes.String, AvailableTypes.Guid);
-        testReturnValueOfType(helper.isString, false,
+        testValid(typeHelper.isString);
+        testReturnValueOfType(typeHelper.isString, true, AvailableTypes.String, AvailableTypes.Guid);
+        testReturnValueOfType(typeHelper.isString, false,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
@@ -377,13 +354,13 @@ describe('typeHelper', () => {
     });
 
     describe('.nullOrUndef', () => {
-        testValid(helper.nullOrUndef);
-        testReturnValueOfType(helper.nullOrUndef, true,
+        testValid(typeHelper.nullOrUndef);
+        testReturnValueOfType(typeHelper.nullOrUndef, true,
             AvailableTypes.Null,
             AvailableTypes.Undefined,
             AvailableTypes.Unknown,
             AvailableTypes.NaN);
-        testReturnValueOfType(helper.nullOrUndef, false,
+        testReturnValueOfType(typeHelper.nullOrUndef, false,
             AvailableTypes.Array,
             AvailableTypes.String,
             AvailableTypes.Number,
@@ -395,7 +372,7 @@ describe('typeHelper', () => {
     });
 
     describe('.type', () => {
-        testValid(helper.type);
+        testValid(typeHelper.type);
 
         for (const item in AvailableTypes) {
             if (!Number.isNaN(Number(item))) {
@@ -404,7 +381,7 @@ describe('typeHelper', () => {
                     AvailableTypes[item].toLowerCase();
 
                 testReturnValueOfTypeSetTitle(
-                    helper.type,
+                    typeHelper.type,
                     `should return ${returnTxt} if value is `,
                     Number(item),
                     Number(item));
@@ -418,7 +395,7 @@ describe('typeHelper', () => {
                         Number(AvailableTypes.String) :
                         Number(AvailableTypes.Array);
 
-                    expect(helper.type(AvailableTypes[item])).to.not.equal(AvailableTypes[wrongType]);
+                    expect(typeHelper.type(AvailableTypes[item])).to.not.equal(AvailableTypes[wrongType]);
                 }
             }
         });
@@ -426,12 +403,12 @@ describe('typeHelper', () => {
 
     // ToDo
     describe('.typeOf', () => {
-        testValid(helper.typeOf);
+        testValid(typeHelper.typeOf);
     });
 
     // ToDo
     describe('.typeOfArr', () => {
-        testValid(helper.typeOfArr);
+        testValid(typeHelper.typeOfArr);
     });
 });
 
@@ -441,12 +418,8 @@ function testReturnValueOfType(fn: any, expected: any, ...types: AvailableTypes[
 }
 
 function testReturnValueOfTypeSetTitle(fn: any, title: string, expected: any, ...types: AvailableTypes[]): void {
-    const buildExpect = (value: any, inverted?: boolean, callback?: () => void) => {
-        if (inverted) {
-            expect(fn(value)).to.not.be.equal(expected);
-        } else {
-            expect(fn(value)).to.be.equal(expected);
-        }
+    const buildExpect = (value: any, callback?: () => void) => {
+        expect(fn(value)).to.be.equal(expected);
         if (callback) {
             callback();
         }

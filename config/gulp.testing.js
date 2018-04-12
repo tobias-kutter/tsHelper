@@ -5,7 +5,7 @@ const typescript = require('typescript');
 const tslint = require('tslint');
 
 gulp.task('testing:lint:config', () =>
-    gulp.src([ './src/**/*.js', './config/**/*.js' ])
+    gulp.src(['./src/**/*.js', './config/**/*.js'])
         .pipe(plugins.tslint({ formatter: 'stylish' }))
         .pipe(plugins.tslint.report({
             emitError: false,
@@ -36,5 +36,5 @@ gulp.task('testing:unit', () =>
             require: 'ts-node/register'
         })));
 
-gulp.task('testing:lint', [ 'testing:lint:config', 'testing:lint:source' ]);
+gulp.task('testing:lint', ['testing:lint:config', 'testing:lint:source']);
 gulp.task('testing', (done) => plugins.sequence('testing:lint', 'testing:unit')(done));

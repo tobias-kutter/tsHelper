@@ -12,6 +12,9 @@ export interface IHelperInstance {
 
     types: typeof AvailableTypes;
     environments: typeof SystemEnvironment;
+
+    isDef: (value: any) => boolean;
+    areDef: (...values: any[]) => boolean;
 }
 
 export class HelperInstance implements IHelperInstance {
@@ -23,6 +26,9 @@ export class HelperInstance implements IHelperInstance {
     public readonly types: typeof AvailableTypes;
     public readonly environments: typeof SystemEnvironment;
 
+    public readonly isDef: (value: any) => boolean;
+    public readonly areDef: (...values: any[]) => boolean;
+
     public constructor() {
         this.guid = guidHelper;
         this.string = stringHelper;
@@ -30,6 +36,10 @@ export class HelperInstance implements IHelperInstance {
 
         this.types = AvailableTypes;
         this.environments = SystemEnvironment;
+
+        // link shortcut functions
+        this.isDef = typeHelper.isDefined;
+        this.areDef = typeHelper.areDefined;
     }
 }
 

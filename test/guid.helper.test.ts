@@ -1,95 +1,94 @@
-import { guidHelper, IGuidHelper } from '../src/helpers/guid.helper';
+import { guidHelper } from '../src/helpers/guid.helper';
 import { describe, expect, it, ITestConstants, TestConstants, testValid } from './_TestBase';
 
-const helper: IGuidHelper = guidHelper;
 const con: ITestConstants = new TestConstants();
 
 /* tslint:disable:no-unused-expression */
 
 describe('guidHelper', () => {
-    testValid(helper, 'object');
+    testValid(guidHelper, 'object');
 
     describe('.emptyGuid', () => {
-        testValid(helper.emptyGuid, 'string');
+        testValid(guidHelper.emptyGuid, 'string');
 
         it('should return empty guid', () => {
-            expect(helper.emptyGuid).to.be.equal(con.emptyGuidVal);
+            expect(guidHelper.emptyGuid).to.be.equal(con.emptyGuidVal);
         });
     });
 
     describe('.generate', () => {
-        testValid(helper.generate);
+        testValid(guidHelper.generate);
 
         it('should return a guid as string', () => {
-            expect(helper.generate()).to.be.a('string');
+            expect(guidHelper.generate()).to.be.a('string');
         });
 
         it('should match guid pattern', () => {
-            expect(helper.generate()).to.match(con.regExp.guid);
+            expect(guidHelper.generate()).to.match(con.regExp.guid);
         });
 
         it('should return a valid guid', () => {
-            expect(helper.generate()).to.match(con.regExp.validGuid);
+            expect(guidHelper.generate()).to.match(con.regExp.validGuid);
         });
 
         it('should not return empty guid pattern', () => {
-            expect(helper.generate()).to.not.match(con.regExp.emptyGuid);
+            expect(guidHelper.generate()).to.not.match(con.regExp.emptyGuid);
         });
     });
 
     describe('.isEmptyGuid', () => {
-        testValid(helper.isEmptyGuid);
+        testValid(guidHelper.isEmptyGuid);
 
         it('should return true if param is empty guid', () => {
-            expect(helper.isEmptyGuid(con.emptyGuidVal)).to.be.true;
+            expect(guidHelper.isEmptyGuid(con.emptyGuidVal)).to.be.true;
         });
 
         it('should return false if param is valid guid', () => {
-            expect(helper.isEmptyGuid(con.guidVal)).to.be.false;
+            expect(guidHelper.isEmptyGuid(con.guidVal)).to.be.false;
         });
 
         it('should return false if param is empty string', () => {
-            expect(helper.isEmptyGuid('')).to.be.false;
+            expect(guidHelper.isEmptyGuid('')).to.be.false;
         });
 
         it('should return false if param is not a guid', () => {
-            expect(helper.isEmptyGuid(con.stringVal)).to.be.false;
+            expect(guidHelper.isEmptyGuid(con.stringVal)).to.be.false;
         });
     });
 
     describe('.isValidGuid', () => {
-        testValid(helper.isValidGuid);
+        testValid(guidHelper.isValidGuid);
 
         it('should return false if param is empty guid', () => {
-            expect(helper.isValidGuid(con.emptyGuidVal)).to.be.false;
+            expect(guidHelper.isValidGuid(con.emptyGuidVal)).to.be.false;
         });
 
         it('should return true if param is valid guid', () => {
-            expect(helper.isValidGuid(con.guidVal)).to.be.true;
+            expect(guidHelper.isValidGuid(con.guidVal)).to.be.true;
         });
 
         it('should return false if param is empty string', () => {
-            expect(helper.isValidGuid('')).to.be.false;
+            expect(guidHelper.isValidGuid('')).to.be.false;
         });
 
         it('should return false if param is not a guid', () => {
-            expect(helper.isValidGuid(con.stringVal)).to.be.false;
+            expect(guidHelper.isValidGuid(con.stringVal)).to.be.false;
         });
     });
 
     describe('.pattern', () => {
-        testValid(helper.pattern, 'object');
+        testValid(guidHelper.pattern, 'object');
 
         describe('.empty', () => {
-            testValid(helper.pattern.empty, 'RegExp');
+            testValid(guidHelper.pattern.empty, 'RegExp');
         });
 
         describe('.general', () => {
-            testValid(helper.pattern.general, 'RegExp');
+            testValid(guidHelper.pattern.general, 'RegExp');
         });
 
         describe('.valid', () => {
-            testValid(helper.pattern.valid, 'RegExp');
+            testValid(guidHelper.pattern.valid, 'RegExp');
         });
     });
 });

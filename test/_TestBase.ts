@@ -1,7 +1,10 @@
-import * as globalConstants from '../src/constants';
+import { GUID_EMPTY, RegExpCollection } from '../src/constants';
 
 import * as chaiLib from 'chai';
 import * as mochaLib from 'mocha';
+
+export const MockBrowser = require('mock-browser').mocks.MockBrowser;
+export const AbstractBrowser = require('mock-browser').delegates.AbstractBrowser;
 
 export const describe = mochaLib.describe;
 export const it = mochaLib.it;
@@ -225,12 +228,12 @@ export class TestConstants implements ITestConstants {
         this.mDateInvalidVal = new Date(0, Number.NaN, undefined);
 
         this.mGuid = '18fa67fe-05ae-41af-84a5-610e844379d1';
-        this.mEmptyGuid = globalConstants.GUID_EMPTY;
+        this.mEmptyGuid = GUID_EMPTY;
 
         this.mRegExp = {
-            guid: globalConstants.REGEX_GUID,
-            validGuid: globalConstants.REGEX_GUID_VALID,
-            emptyGuid: globalConstants.REGEX_GUID_EMPTY
+            guid: RegExpCollection.guid.GENERAL,
+            validGuid: RegExpCollection.guid.VALID,
+            emptyGuid: RegExpCollection.guid.EMPTY
         };
 
         /* tslint:enable:no-empty */

@@ -1,15 +1,15 @@
-import { REGEX_GUID, REGEX_GUID_VALID } from '../constants';
+import { RegExpCollection } from '../constants';
 import { AvailableTypes } from '../enumerations/availableTypes.enum';
 
 function fnType(value: any): AvailableTypes {
     const varType: string = typeof value;
 
     if (varType === 'string') {
-        return REGEX_GUID.test(value) ? AvailableTypes.Guid : AvailableTypes.String;
+        return RegExpCollection.guid.GENERAL.test(value) ? AvailableTypes.Guid : AvailableTypes.String;
     } else if (varType === 'boolean') {
         return AvailableTypes.Boolean;
     } else if (varType === 'number') {
-        return isNaN(value) ? AvailableTypes.NaN : AvailableTypes.Number;
+        return Number.isNaN(value) ? AvailableTypes.NaN : AvailableTypes.Number;
     } else if (varType === 'function') {
         return AvailableTypes.Function;
     } else if (varType === 'object') {
@@ -62,7 +62,7 @@ function fnIsDate(value: any): boolean {
 
 function fnIsDateValid(value: any): boolean {
     const dateWrapper = new Date(value);
-    return !isNaN(dateWrapper.getDate());
+    return !Number.isNaN(dateWrapper.getDate());
 }
 
 function fnIsFunction(value: any): boolean {
@@ -74,7 +74,7 @@ function fnIsGuid(value: any, allowEmptyGuid?: boolean): boolean {
         allowEmptyGuid = true;
     }
     const isGuid = fnTypeOf(value, AvailableTypes.Guid);
-    return allowEmptyGuid ? isGuid : isGuid && REGEX_GUID_VALID.test(value);
+    return allowEmptyGuid ? isGuid : isGuid && RegExpCollection.guid.VALID.test(value);
 }
 
 function fnIsNumber(value: any): boolean {
